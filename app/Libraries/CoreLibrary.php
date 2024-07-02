@@ -196,7 +196,7 @@ class CoreLibrary {
                 $stateParameters->data['updated_at'] = date('Y-m-d H:i:s');
                 $stateParameters->data['updated_by'] = $this->session->user_id;
             }
-            log_message('error', json_encode($stateParameters));
+            // log_message('error', json_encode($stateParameters));
             return $stateParameters;
         });
 
