@@ -18,6 +18,8 @@ class CoreLibrary {
     protected $table;
     protected $crud;
     public function __construct(){
+        
+        helper('setting');
 
         // Database con connections
         $this->read_db = \Config\Database::connect('read');
@@ -78,10 +80,16 @@ class CoreLibrary {
             $this->fieldControlFunctions($crud, $featureLibrary);
         }
 
+        $this->setConfig();
+
 	    $output = $crud->render();
         $output->page_data = $page_data;
 
 		return $this->output($output);
+    }
+
+    private function setConfig(){
+        
     }
     private function userPermissionControls(&$crud){
         // $roleLibrary = new \App\Libraries\RoleLibrary();
