@@ -9,6 +9,8 @@ class PermissionLibrary extends CoreLibrary
         parent::__construct();
     }
 
+
+
     private function getPermissionsByPermissionIds($permissionIds)
     {
         $builder = $this->read_db->table('permissions');
@@ -58,7 +60,7 @@ class PermissionLibrary extends CoreLibrary
         return $fillUpPermissionByStrength;
     }
 
-    public function getAllPermissions(){
+    public function getAllowablePermissions(){
 
         $builder = $this->read_db->table('permissions');
         $builder->select('id, name');
@@ -67,10 +69,22 @@ class PermissionLibrary extends CoreLibrary
         }
         $permissions = $builder->get()->getResultArray();
 
-        $ids = array_column($permissions, 'id');
-        $names = array_column($permissions, 'name');
-        $keyArray  = array_combine($ids, $names);
+        return $permissions;
+    }
 
-        return $keyArray;
+    public function getPermissionByLabel($featureName, $labelName){
+        $builder = $this->read_db->table('permissions');
+        $builder->select('permissions.id as id, features.id as feature_id, permissions.label');
+        $builder->join('features','features.id=permissions.feature_id');
+        $builder->where(['features.name' => $featureName, 'permissions.label' => $labelName, 'permissions.global_permission' => 'no']);
+        $permissionObj = $builder->get();
+
+        $permission = [];
+
+        if($permissionObj->getNumRows() > 0){
+            $permission = $permissionObj->getRowArray();
+        }
+
+        return $permission;
     }
 }

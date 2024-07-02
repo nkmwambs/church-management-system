@@ -8,7 +8,11 @@ class RoleLibrary extends CoreLibrary {
     }
 
     public function columns(){
-        return ['name', 'permissions'];
+        $fields = ['name', 'permissions', 'denomination'];
+        if(!$this->session->get('system_admin')){
+            unset($fields[array_search('denomination_id', $fields)]);
+        }
+        return $fields;
     }
 
     public function addFields(){
@@ -35,6 +39,10 @@ class RoleLibrary extends CoreLibrary {
         if(!isset($stateParameters->data['denomination_id'])){
             $stateParameters->data['denomination_id'] = $this->session->get('denomination_id');
         }
+
+        $readDashboardPermission = $this->callClassMethod('permission', 'getPermissionByLabel','dashboard','read');
+        $stateParameters->data['permissions'][] = $readDashboardPermission['id'];
+        
         return $stateParameters;
     }
     
@@ -86,9 +94,9 @@ class RoleLibrary extends CoreLibrary {
     }
 
     public function buildCrud($crud){
-        $permissionLibrary = new PermissionLibrary();
-        $permissionOptions = $permissionLibrary->getAllPermissions();
-        $crud->fieldType('permissions', 'multiselect', $permissionOptions);
+        $this->setSelectField($crud, 'permission', 'permissions');
+        $crud->setRelation('denomination_id', 'denominations','name');
+        $crud->displayAs('denomination_id', get_phrase('denomination'));
 
         if(!$this->session->system_admin){
             $crud->where('default_role', 'no');
@@ -104,11 +112,6 @@ class RoleLibrary extends CoreLibrary {
             $builder->orWhere('roles.denomination_id', NULL);
         }
         $roles = $builder->get()->getResultArray();
-
-        // $ids = array_column($roles, 'id');
-        // $names = array_column($roles, 'name');
-
-        // $keyedArray = array_combine($ids, $names);
 
         return $roles;
     }

@@ -51,7 +51,7 @@ class EntityLibrary extends CoreLibrary {
 
     public function buildCrud($crud){
         $crud->displayAs(['hierarchy_id' => get_phrase('hierarchy'), 'parent_id' => get_phrase('reporting_to_entity')]);
-        $crud->setRelation('hierarchy_id', 'hierarchies', 'name', !$this->session->system_admin ? 'denomination_id = '.$this->session->denomination_id : '');
+        $crud->setRelation('hierarchy_id', 'hierarchies', 'name', !$this->session->system_admin ? 'denomination_id = '.$this->session->denomination_id : null);
         // $crud->setRelation('hierarchy_id', 'hierarchies', 'name');
         
         $crud->setRelation('parent_id', 'entities', 'name');

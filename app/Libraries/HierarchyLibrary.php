@@ -59,7 +59,7 @@ class HierarchyLibrary extends CoreLibrary {
         if($this->action == 'add'){
             $nextAvailableLevel = $this->lastUsedDenominationHierarchyLevel($this->session->get('denomination_id')) + 1;
             $crud->fieldType('level', 'dropdown', [
-                $nextAvailableLevel => 'Level ' . $nextAvailableLevel,
+                $nextAvailableLevel => get_phrase('level'). ' ' . $nextAvailableLevel,
             ]);
         }
 
@@ -127,6 +127,11 @@ class HierarchyLibrary extends CoreLibrary {
         } 
 
         return $lastUsedLevel;
+    }
+
+    public function getNextHierarchyLevel($denomination_id){
+        $nextAvailableLevel = $this->lastUsedDenominationHierarchyLevel($denomination_id) + 1;
+        return [['levelNumber' => $nextAvailableLevel, 'levelName' => get_phrase('level'). ' ' . $nextAvailableLevel]];
     }
 
     public function getAllowableHierachies(){

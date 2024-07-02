@@ -66,6 +66,7 @@ class CoreLibrary {
         $crud->unsetCloneFields(['deleted_at', 'deleted_by','updated_at','updated_by','created_at','created_by']);
         // $crud->setLangString('form_edit', 'Update'); 
         
+        
         // Only list items not deleted
         if($this->action == 'ajax_list'){
             $crud->where($this->table.'.deleted_at', NULL);
@@ -97,7 +98,7 @@ class CoreLibrary {
 
     protected function callClassMethod($featureName, $methodName, ...$params){
         $featureLibrary = new ('\\App\Libraries\\'.pascalize($featureName).'Library')();
-        $result = $featureLibrary->{$methodName}($params);
+        $result = $featureLibrary->{$methodName}(...$params);
         return $result;
     }
 

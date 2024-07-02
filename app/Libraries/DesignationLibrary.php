@@ -35,7 +35,7 @@ class DesignationLibrary extends CoreLibrary {
     }
 
     public function buildCrud($crud){
-        $crud->setRelation('denomination_id', 'denominations', 'name', !$this->session->system_admin ? 'id = '.$this->session->denomination_id : '');
+        $crud->setRelation('denomination_id', 'denominations', 'name', !$this->session->system_admin ? 'id = '.$this->session->denomination_id : null);
         $crud->displayAs('denomination_id',get_phrase('denomination'));
 
         if(!$this->session->system_admin){
