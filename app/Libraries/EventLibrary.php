@@ -7,8 +7,21 @@ class EventLibrary extends CoreLibrary {
         parent::__construct();
     }
 
+    public function requiredFields(){
+        $fields = ['name','gatheringtype_id','start_date','end_date','location','denomination_id'];
+        return $fields;
+    }
+
     public function addFields(){
-        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','assemblies'];
+        if(!$this->session->get('system_admin')){
+            unset($fields[array_search('denomination_id',$fields)]);
+        }
+        return $fields;
+    }
+
+    public function editFields(){
+        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','assemblies'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
@@ -34,7 +47,13 @@ class EventLibrary extends CoreLibrary {
     public function buildCrud($crud){
         $crud->setRelation('denomination_id', 'denominations', 'name');
         $crud->setRelation('gatheringtype_id', 'gatheringtypes', 'name');
-        $crud->displayAs(['denomination_id' => get_phrase('denomination'),'gatheringtype_id' => get_phrase('gathering_type')]);
+        // $crud->setRelation('assembly_id', 'assemblies', 'name');
+        $assemblyLibrary = new AssemblyLibrary();
+        $assemblyOptions = $assemblyLibrary->getAllowableAssemblies();
+        if(!empty($assemblyOptions)){
+            $crud->fieldType('assemblies', 'multiselect', transposeRecordArray($assemblyOptions));
+        }
+        $crud->displayAs(['denomination_id' => get_phrase('denomination'),'assembly_id' => get_phrase('assembly'),'gatheringtype_id' => get_phrase('gathering_type')]);
        
     }
 }

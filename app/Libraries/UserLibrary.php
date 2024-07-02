@@ -59,7 +59,7 @@ class UserLibrary extends CoreLibrary {
     }
 
     public function addFields(){
-        $fields = ['first_name', 'last_name','roles', 'date_of_birth', 'gender','phone','email','denomination_id','password', 'pass_confirm'];
+        $fields = ['first_name', 'last_name','roles','permitted_entities','permitted_assemblies', 'date_of_birth', 'gender','phone','email','denomination_id','password', 'pass_confirm'];
         if($this->session->get('system_admin')){
             array_push($fields, 'is_system_admin');
         }
@@ -70,7 +70,7 @@ class UserLibrary extends CoreLibrary {
     }
 
     public function editFields(){
-        $fields = ['first_name', 'last_name','roles', 'date_of_birth', 'gender', 'phone','email'];
+        $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email'];
         if($this->session->get('system_admin')){
             array_push($fields, 'is_system_admin');
         }
@@ -120,15 +120,24 @@ class UserLibrary extends CoreLibrary {
     public function buildCrud($crud){
         $crud->setRelation('denomination_id', 'denominations', 'name', !$this->session->system_admin ? 'id = '.$this->session->denomination_id : '');
         $crud->displayAs('denomination_id',get_phrase('denomination'));
+
         $roleLibrary = new RoleLibrary();
         $rolesOptions = $roleLibrary->getRoles();
         if(!empty($rolesOptions)){
             $crud->fieldType('roles', 'multiselect', $rolesOptions);
         }
-        // else{
-        //     $crud->fieldType('roles', 'multiselect', ['1' => 'Guest']);
-        // }
+
+        $entityLibrary = new EntityLibrary();
+        $entityOptions = $entityLibrary->getAllowableEntities();
+        if(!empty($entityOptions)){
+            $crud->fieldType('permitted_entities', 'multiselect', transposeRecordArray($entityOptions));
+        }
         
+        $assemblyLibrary = new AssemblyLibrary();
+        $assemblyOptions = $assemblyLibrary->getAllowableAssemblies();
+        if(!empty($assemblyOptions)){
+            $crud->fieldType('permitted_assemblies', 'multiselect', transposeRecordArray($assemblyOptions));
+        }
 
         // Prevent listing self
         $crud->where('users.id<>', $this->session->get('user_id'));

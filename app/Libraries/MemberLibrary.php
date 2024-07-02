@@ -33,7 +33,7 @@ class MemberLibrary extends CoreLibrary {
         $crud->setRelation('designation_id','designations','name', 'denomination_id ='.$this->session->denomination_id);
         // $crud->setRelation('assembly_id','assemblies','name','denomination_id ='.$this->session->denomination_id);
         $assemblyLibrary = new AssemblyLibrary();
-        $crud->fieldType('assembly_id', 'dropdown', $assemblyLibrary->getAllowableAssemblies());
+        $crud->fieldType('assembly_id', 'dropdown', transposeRecordArray($assemblyLibrary->getAllowableAssemblies()));
 
         $crud->join(
             [

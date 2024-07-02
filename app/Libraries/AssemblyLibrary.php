@@ -52,10 +52,10 @@ class AssemblyLibrary extends CoreLibrary {
             $builder->where(['hierarchies.denomination_id' => $this->session->denomination_id]);
         }
         $allowableAssemblies = $builder->get()->getResultArray();
-        $ids = array_column($allowableAssemblies, 'id');
-        $names = array_column($allowableAssemblies, 'name');
-        $keyedArray = array_combine($ids, $names);
-        return $keyedArray;
+        // $ids = array_column($allowableAssemblies, 'id');
+        // $names = array_column($allowableAssemblies, 'name');
+        // $keyedArray = array_combine($ids, $names);
+        return $allowableAssemblies;
     }
 
     private function firstLevelEntityIds(){
