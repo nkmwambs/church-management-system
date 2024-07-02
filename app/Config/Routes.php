@@ -24,3 +24,4 @@ foreach ($features as $feature) {
 }
 
 $routes->post('ajax/(:segment)/(:segment)(/(:segment))?', 'Ajax::renderReponse/$1/$2/$3');
+$routes->get('participant/mark_attendance/(:segment)/(:segment)', 'Participant::mark_attendance/$1/$2');

@@ -8,7 +8,7 @@ class EventLibrary extends CoreLibrary {
     }
 
     public function addFields(){
-        $fields = ['name','start_date','end_date','registration_fees','location','description','denomination_id'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
@@ -16,7 +16,7 @@ class EventLibrary extends CoreLibrary {
     }
 
     public function columns(){
-        $fields = ['name','start_date','end_date','registration_fees','location','description','denomination_id','created_at','created_by'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','created_at','created_by'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
@@ -33,6 +33,8 @@ class EventLibrary extends CoreLibrary {
     
     public function buildCrud($crud){
         $crud->setRelation('denomination_id', 'denominations', 'name');
-        $crud->displayAs('denomination_id',get_phrase('denomination'));
+        $crud->setRelation('gatheringtype_id', 'gatheringtypes', 'name');
+        $crud->displayAs(['denomination_id' => get_phrase('denomination'),'gatheringtype_id' => get_phrase('gathering_type')]);
+       
     }
 }

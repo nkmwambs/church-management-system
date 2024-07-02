@@ -1715,7 +1715,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
             return $list;
 
         $primary_key = $this->get_primary_key();
-
+        
         foreach($list as $num_row => $row)
         {
             $actions_urls = array();
@@ -5094,7 +5094,7 @@ class GroceryCrud extends grocery_CRUD_States
             'url_has_http'	=> false,
             'new_tab'       => $newTab
         );
-
+        // log_message('error', json_encode($this->actions));
         return $this;
     }
 
