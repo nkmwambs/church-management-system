@@ -101,6 +101,15 @@ class CoreLibrary {
         return $result;
     }
 
+    protected function getRecordById($feature, $recordId){
+        $table = plural($feature);
+        $builder = $this->read_db->table($table);
+        $builder->where($table.'.id', $recordId);
+        $builder->where($table.'.deleted_at', NULL);
+        $result = $builder->get()->getRowArray();
+        return $result;
+    }
+
     protected function setSelectField($crud, $featureName, $fieldName, $multiselect = true){
         $options = $this->getAllowableResults($featureName);
         if(!empty($options)){

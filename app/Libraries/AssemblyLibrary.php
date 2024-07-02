@@ -64,7 +64,9 @@ class AssemblyLibrary extends CoreLibrary {
         $builder->join('hierarchies', 'hierarchies.id=entities.hierarchy_id');
         if(!$this->session->system_admin){
             $builder->where(['hierarchies.denomination_id' => $this->session->denomination_id]);
-            if(!empty($user['permitted_assemblies'])){
+            if(!empty($user['permitted_entities'])){
+                $builder->whereIn('entities.id', explode(',', $user['permitted_entities']));
+            }elseif(!empty($user['permitted_assemblies'])){
                 $builder->whereIn('assemblies.id', explode(',', $user['permitted_assemblies']));
             }else{
                 $builder->where('assemblies.id', 0);
