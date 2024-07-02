@@ -80,7 +80,7 @@ class CoreLibrary {
             $this->fieldControlFunctions($crud, $featureLibrary);
         }
 
-        $this->setConfig();
+        // $this->setConfig();
 
 	    $output = $crud->render();
         $output->page_data = $page_data;
@@ -88,8 +88,32 @@ class CoreLibrary {
 		return $this->output($output);
     }
 
-    private function setConfig(){
-        
+    // private function setConfig(){
+    //     // if(!setting()->get('App.siteName')){
+    //         // setting()->set('App.siteName', 'Church Management System');
+    //         service('settings')->set('App.siteName', 'Church Management System');
+    //     // }
+    // }
+
+    protected function callClassMethod($featureName, $methodName, ...$params){
+        $featureLibrary = new ('\\App\Libraries\\'.pascalize($featureName).'Library')();
+        $result = $featureLibrary->{$methodName}($params);
+        return $result;
+    }
+
+    protected function setSelectField($crud, $featureName, $fieldName, $multiselect = true){
+        $options = $this->getAllowableResults($featureName);
+        if(!empty($options)){
+            $crud->fieldType($fieldName, $multiselect ? 'multiselect':'dropdown', transposeRecordArray($options));
+        }else{
+            $crud->fieldType($fieldName, $multiselect ? 'multiselect':'dropdown', ['' => '']);
+        }
+    }
+
+    protected function getAllowableResults($featureName){
+        $pascalizeFeatureName = pascalize($featureName);
+        $featureLibary = new ('\\App\\Libraries\\'.$pascalizeFeatureName.'Library')();
+        return $featureLibary->{'getAllowable'.plural($pascalizeFeatureName)}();
     }
     private function userPermissionControls(&$crud){
         // $roleLibrary = new \App\Libraries\RoleLibrary();

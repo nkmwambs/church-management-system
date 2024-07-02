@@ -96,7 +96,7 @@ class RoleLibrary extends CoreLibrary {
         }   
     }
 
-    public function getRoles(){
+    public function getAllowableRoles(){
         $builder = $this->read_db->table('roles');
         $builder->select('id, name');
         if(!$this->session->system_admin){
@@ -105,12 +105,12 @@ class RoleLibrary extends CoreLibrary {
         }
         $roles = $builder->get()->getResultArray();
 
-        $ids = array_column($roles, 'id');
-        $names = array_column($roles, 'name');
+        // $ids = array_column($roles, 'id');
+        // $names = array_column($roles, 'name');
 
-        $keyedArray = array_combine($ids, $names);
+        // $keyedArray = array_combine($ids, $names);
 
-        return $keyedArray;
+        return $roles;
     }
     
 }

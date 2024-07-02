@@ -121,23 +121,9 @@ class UserLibrary extends CoreLibrary {
         $crud->setRelation('denomination_id', 'denominations', 'name', !$this->session->system_admin ? 'id = '.$this->session->denomination_id : '');
         $crud->displayAs('denomination_id',get_phrase('denomination'));
 
-        $roleLibrary = new RoleLibrary();
-        $rolesOptions = $roleLibrary->getRoles();
-        if(!empty($rolesOptions)){
-            $crud->fieldType('roles', 'multiselect', $rolesOptions);
-        }
-
-        $entityLibrary = new EntityLibrary();
-        $entityOptions = $entityLibrary->getAllowableEntities();
-        if(!empty($entityOptions)){
-            $crud->fieldType('permitted_entities', 'multiselect', transposeRecordArray($entityOptions));
-        }
-        
-        $assemblyLibrary = new AssemblyLibrary();
-        $assemblyOptions = $assemblyLibrary->getAllowableAssemblies();
-        if(!empty($assemblyOptions)){
-            $crud->fieldType('permitted_assemblies', 'multiselect', transposeRecordArray($assemblyOptions));
-        }
+        $this->setSelectField($crud, 'role', 'roles');
+        $this->setSelectField($crud, 'entity', 'permitted_entities',false);
+        $this->setSelectField($crud, 'assembly', 'permitted_assemblies');
 
         // Prevent listing self
         $crud->where('users.id<>', $this->session->get('user_id'));
@@ -151,4 +137,5 @@ class UserLibrary extends CoreLibrary {
         $crud->setRule('password', 'Password', 'required|max_length[255]|min_length[8]');   
         $crud->setRule('pass_confirm', 'Password Confirmation', 'required|max_length[255]|matches[password]');  
     }
+
 }

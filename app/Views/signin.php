@@ -50,7 +50,7 @@
 				<img src="assets/images/logo.png" width="120" alt="" />
 			</a>
 			
-			<p class="description">Dear user, log in to access the admin area!</p>
+			<p class="description" style="font-size:20px;color:aliceblue;"><?=service('settings')->get('App.siteName');?></p>
 			
 			<!-- progress bar indicator -->
 			<div class="login-progressbar-indicator">

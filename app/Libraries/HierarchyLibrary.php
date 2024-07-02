@@ -92,6 +92,25 @@ class HierarchyLibrary extends CoreLibrary {
         if(!isset($stateParameters->data['denomination_id'])){
             $stateParameters->data['denomination_id'] = $this->session->get('denomination_id');
         }
+
+        if(!$this->session->system_admin){
+            if(!strpos($stateParameters->data['name'], $this->session->denomination_code)){
+                $stateParameters->data['name'] = $this->session->denomination_code.' - '.$stateParameters->data['name'];
+            }
+        }
+
+        return $stateParameters;
+    }
+
+    function callbackBeforeUpdate($stateParameters) {
+        // Append denomination name to resource name
+
+        if(!$this->session->system_admin){
+            if(!strpos($stateParameters->data['name'], $this->session->denomination_code)){
+                $stateParameters->data['name'] = $this->session->denomination_code.' - '.$stateParameters->data['name'];
+            }
+        }
+
         return $stateParameters;
     }
 

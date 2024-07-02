@@ -80,6 +80,10 @@ abstract class BaseController extends Controller
         $this->action = isset($this->segments[1]) ? $this->segments[1] : 'list';
         $this->id = isset($this->segments[2]) ? $this->segments[2] : 0;
 
+        if(!service('settings')->get('App.siteName')){
+            service('settings')->set('App.siteName', 'Church Management System');
+        }
+
     }
 
     function index()

@@ -10,11 +10,11 @@ class DenominationLibrary extends CoreLibrary {
     }
     
     public function requiredFields(){
-        return ['name', 'registration_date','head_office','email','phone'];
+        return ['name','code', 'registration_date','head_office','email','phone'];
     }
 
     public function columns(){
-        return ['name', 'registration_date','head_office','email','phone','created_at','created_by'];
+        return ['name', 'code','registration_date','head_office','email','phone','created_at','created_by'];
     }
 
     public function buildCrud($crud) {

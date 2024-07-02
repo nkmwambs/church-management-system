@@ -21,6 +21,17 @@ class AssemblyLibrary extends CoreLibrary {
         return ['name', 'entity_id', 'location', 'planted_at','assembly_leader', 'created_at', 'created_by'];
     }
 
+    function callbackBeforeInsert($stateParameters) {
+        // Append denomination name to resource name
+        if(!$this->session->system_admin){
+            if(!strpos($stateParameters->data['name'], $this->session->denomination_code)){
+                $stateParameters->data['name'] = $this->session->denomination_code.' - '.$stateParameters->data['name'];
+            }
+        }
+
+        return $stateParameters;
+    }
+
     public function buildCrud($crud) {
         $crud->displayAs(['entity_id' => get_phrase('entity')]); 
 
@@ -41,20 +52,26 @@ class AssemblyLibrary extends CoreLibrary {
                 ['entities','hierarchy_id', 'hierarchies', 'id', !$this->session->system_admin ? ['hierarchies.denomination_id' => $this->session->denomination_id] : []]
             ]
         );
-    }
+    } 
 
     public function getAllowableAssemblies(){
+
+        $user = $this->callClassMethod('user','getUserById', $this->session->user_id);
+
         $builder = $this->read_db->table('assemblies');
         $builder->select('assemblies.id, assemblies.name');
         $builder->join('entities', 'entities.id=assemblies.entity_id');
         $builder->join('hierarchies', 'hierarchies.id=entities.hierarchy_id');
         if(!$this->session->system_admin){
             $builder->where(['hierarchies.denomination_id' => $this->session->denomination_id]);
+            if(!empty($user['permitted_assemblies'])){
+                $builder->whereIn('assemblies.id', explode(',', $user['permitted_assemblies']));
+            }else{
+                $builder->where('assemblies.id', 0);
+            }
         }
         $allowableAssemblies = $builder->get()->getResultArray();
-        // $ids = array_column($allowableAssemblies, 'id');
-        // $names = array_column($allowableAssemblies, 'name');
-        // $keyedArray = array_combine($ids, $names);
+    
         return $allowableAssemblies;
     }
 

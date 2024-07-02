@@ -2231,6 +2231,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "codeigniter4/queue": 20,
         "codeigniter4/tasks": 20
     },
     "prefer-stable": true,
