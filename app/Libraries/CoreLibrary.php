@@ -17,6 +17,8 @@ class CoreLibrary {
     public static $GC = true;
     protected $table;
     protected $crud;
+
+    protected $addFields;
     public function __construct(){
         
         helper('setting');

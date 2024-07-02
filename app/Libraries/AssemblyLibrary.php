@@ -10,7 +10,7 @@ class AssemblyLibrary extends CoreLibrary {
     }
     
     public function requiredFields(){
-        return ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
+        return ['name', 'entity_id', 'location', 'planted_at'];
     }
 
     public function editFields(){

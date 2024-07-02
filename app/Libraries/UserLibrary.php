@@ -136,6 +136,9 @@ class UserLibrary extends CoreLibrary {
         $crud->setRule('email', 'Email', 'required|max_length[254]|valid_email');
         $crud->setRule('password', 'Password', 'required|max_length[255]|min_length[8]');   
         $crud->setRule('pass_confirm', 'Password Confirmation', 'required|max_length[255]|matches[password]');  
+
+        $crud->fieldType('password', 'password');
+        $crud->fieldType('pass_confirm', 'password');
     }
 
 }

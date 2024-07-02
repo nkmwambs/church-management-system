@@ -12,7 +12,7 @@ class MemberLibrary extends CoreLibrary {
         return $fields;
     }
 
-    public function addFields(){
+    public function dbAddFields(){
         $fields = ['first_name', 'last_name','phone', 'email', 'date_of_birth','designation_id', 'assembly_id'];
         return $fields;
     }
@@ -29,11 +29,37 @@ class MemberLibrary extends CoreLibrary {
         return ['designation_id' => get_phrase('designation'),'assembly_id' => get_phrase('assembly')];
     }
 
+    public function customFields($crud){
+        $customFields = [
+            'marital_status' => [
+                'type' => 'dropdown',
+                'options' => ['male' => 'male', 'female' => 'female']
+            ],
+            'spouse_name' => [
+                'type' => 'string'
+            ],
+            'marriage_date' => [
+                'type' => 'date'
+            ]
+        ];
+        $crud->addFields([...$this->dbAddFields(), ...array_keys($customFields)]);
+
+        foreach($customFields as $field_name => $field_info){
+            if($field_info['type'] == 'dropdown'){
+                $crud->fieldType($field_name, 'dropdown', $field_info['options']);
+            }else{
+                $crud->fieldType($field_name, $field_info['type']);
+            }
+        }
+    }
+
     public function buildCrud($crud){
         $crud->setRelation('designation_id','designations','name', 'denomination_id ='.$this->session->denomination_id);
         // $crud->setRelation('assembly_id','assemblies','name','denomination_id ='.$this->session->denomination_id);
         $assemblyLibrary = new AssemblyLibrary();
         $crud->fieldType('assembly_id', 'dropdown', transposeRecordArray($assemblyLibrary->getAllowableAssemblies()));
+
+        $this->customFields($crud);
 
         $crud->join(
             [
