@@ -69,6 +69,7 @@ class UserLibrary extends CoreLibrary {
         return $fields;
     }
 
+
     public function editFields(){
         $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email'];
         if($this->session->get('system_admin')){
@@ -109,7 +110,7 @@ class UserLibrary extends CoreLibrary {
     }
 
     public function unsetReadFields(){
-        return ['password','deleted_at','deleted_by'];
+        return ['pass_confirm','password','deleted_at','deleted_by'];
     }
 
     public function uniqueFields(){

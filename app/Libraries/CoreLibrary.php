@@ -91,8 +91,39 @@ class CoreLibrary
 
         if ($this->feature != 'customfield') {
             $this->customFields($crud);
+            $this->customFieldsReadValues($crud);
+            $this->getACtionedUsersNames($crud);
         }
+        
 
+        $output = $crud->render();
+        $output->page_data = $page_data;
+
+        return $this->output($output);
+    }
+
+    private function getACtionedUsersNames($crud){
+        foreach(['created_by', 'updated_by'] as $fieldName){
+            $feature = $this->feature;
+            $crud->callbackReadField($fieldName, function ($fieldValue, $primaryKeyValue) use ($feature, $fieldName) {
+                    $fullName = $primaryKeyValue;
+                    $builder = $this->read_db->table(plural($feature));
+                    $builder->where('id', $primaryKeyValue);
+                    $userObj = $builder->get();
+                    $user = '';
+                    if($userObj->getNumRows() > 0) {
+                        $action_by = $userObj->getRow()->{$fieldName};
+                        $user = $this->callClassMethod('user','getUserById', $action_by);
+                        $fullName = $user['first_name']. ' ' . $user['last_name'];
+                    }
+    
+                    return $fullName;
+        
+            });
+        }
+    }
+
+    private function customFieldsReadValues($crud){
         $customFieldsName = array_column($this->getAllowableResults('customfield'), 'name');
         foreach ($customFieldsName as $fieldName) {
             $crud->callbackReadField($fieldName, function ($fieldValue, $primaryKeyValue) use ($fieldName) {
@@ -106,36 +137,8 @@ class CoreLibrary
                 }
                 return $value;
             });
-
-            // $crud->callbackEditField($fieldName, function ($fieldValue, $primaryKeyValue, $rowData) {
-            //     // log_message('error', json_encode($fieldValue));
-            //     $builder = $this->read_db->table('customvalues');
-            //     $builder->join('customfields','customfields.id=customvalues.customfield_id');
-            //     $builder->where(array('record_id' => $primaryKeyValue,'customfields.name' => $rowData->name));
-            //     $valueObj = $builder->get();
-            //     $value = '';
-            //     if($valueObj->getNumRows() > 0) {
-            //         $value = $valueObj->getRow()->value;
-            //     }
-            //     return $value;
-            //     // log_message('error', json_encode($rowData));
-            //     // return '+30 <input name="telephone_number" value="' . $fieldValue . '"  />';
-            //     if (sizeof((array)$rowData->extras) > 1) {
-            //         $options = '';
-            //         foreach($rowData['extras'] as $optionValue){
-            //             $options .= '<option value="' . $$optionValue . '">' . $optionValue . '</option>';
-            //         }
-            //         return '<select name = "'.$rowData->name.'">'.$options.'</select>';
-            //     } else {
-            //         // return '<input name="'.$rowData->name.'" type = "text" value="' . $value . '"  />';
-            //     }
-            // });
+            
         }
-
-        $output = $crud->render();
-        $output->page_data = $page_data;
-
-        return $this->output($output);
     }
 
     protected function customFields($crud)

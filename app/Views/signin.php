@@ -71,7 +71,7 @@
 			
 			<div class="form-login-error">
 				<h3>Invalid login</h3>
-				<p>Enter <strong>demo</strong>/<strong>demo</strong> as login and password.</p>
+				<p>Enter correct a login and password.</p>
 			</div>
 			
 			<form method="post" role="form" id="form_login">
