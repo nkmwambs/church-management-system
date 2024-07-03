@@ -13,7 +13,7 @@ class EventLibrary extends CoreLibrary {
     }
 
     public function addFields(){
-        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','assemblies'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','location','description','denomination_id','assemblies'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
@@ -21,7 +21,7 @@ class EventLibrary extends CoreLibrary {
     }
 
     public function editFields(){
-        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','assemblies'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','location','description','denomination_id','assemblies'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
@@ -29,7 +29,7 @@ class EventLibrary extends CoreLibrary {
     }
 
     public function columns(){
-        $fields = ['name','gatheringtype_id','start_date','end_date','registration_fees','location','description','denomination_id','created_at','created_by'];
+        $fields = ['name','gatheringtype_id','start_date','end_date','location','description','denomination_id','created_at','created_by'];
         if(!$this->session->get('system_admin')){
             unset($fields[array_search('denomination_id',$fields)]);
         }
