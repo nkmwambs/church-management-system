@@ -72,6 +72,7 @@ class CoreLibrary
         $crud->unsetFields(['deleted_at', 'deleted_by', 'updated_at', 'updated_by', 'created_at', 'created_by']);
         $crud->unsetCloneFields(['deleted_at', 'deleted_by', 'updated_at', 'updated_by', 'created_at', 'created_by']);
         // $crud->setLangString('form_edit', 'Update'); 
+        // $crud->setPrint();
 
 
         // Only list items not deleted
@@ -90,6 +91,21 @@ class CoreLibrary
 
         if ($this->feature != 'customfield') {
             $this->customFields($crud);
+        }
+
+        $customFieldsName = array_column($this->getAllowableResults('customfield'), 'name');
+        foreach ($customFieldsName as $fieldName) {
+            $crud->callbackReadField($fieldName, function ($fieldValue, $primaryKeyValue) use ($fieldName) {
+                $builder = $this->read_db->table('customvalues');
+                $builder->join('customfields','customfields.id=customvalues.customfield_id');
+                $builder->where(array('record_id' => $primaryKeyValue,'customfields.name' => $fieldName));
+                $valueObj = $builder->get();
+                $value = '';
+                if($valueObj->getNumRows() > 0) {
+                    $value = $valueObj->getRow()->value;
+                }
+                return $value;
+            });
         }
 
         $output = $crud->render();
@@ -296,7 +312,7 @@ class CoreLibrary
                 $i = 0;
                 foreach ($this->customFieldsToInsert as $field => $value) {
                     $insertData[$i]['record_id'] = $stateParameters->insertId;
-                    $insertData[$i]['field_id'] = $this->callClassMethod('customfield', 'getCustomFieldIdByFieldName', $field); //$this->getCustomFieldIdByFieldName($field);
+                    $insertData[$i]['customfield_id'] = $this->callClassMethod('customfield', 'getCustomFieldIdByFieldName', $field); //$this->getCustomFieldIdByFieldName($field);
                     $insertData[$i]['value'] = $value;
                     $insertData[$i]['created_at'] = date('Y-m-d H:i:s');
                     $insertData[$i]['created_by'] = $this->session->user_id;
