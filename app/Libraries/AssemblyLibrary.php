@@ -13,6 +13,9 @@ class AssemblyLibrary extends CoreLibrary {
         return ['name', 'entity_id', 'location', 'planted_at'];
     }
 
+    public function addFields(){
+        return ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
+    }
     public function editFields(){
         return ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
     }

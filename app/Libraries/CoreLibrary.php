@@ -106,6 +106,30 @@ class CoreLibrary
                 }
                 return $value;
             });
+
+            // $crud->callbackEditField($fieldName, function ($fieldValue, $primaryKeyValue, $rowData) {
+            //     // log_message('error', json_encode($fieldValue));
+            //     $builder = $this->read_db->table('customvalues');
+            //     $builder->join('customfields','customfields.id=customvalues.customfield_id');
+            //     $builder->where(array('record_id' => $primaryKeyValue,'customfields.name' => $rowData->name));
+            //     $valueObj = $builder->get();
+            //     $value = '';
+            //     if($valueObj->getNumRows() > 0) {
+            //         $value = $valueObj->getRow()->value;
+            //     }
+            //     return $value;
+            //     // log_message('error', json_encode($rowData));
+            //     // return '+30 <input name="telephone_number" value="' . $fieldValue . '"  />';
+            //     if (sizeof((array)$rowData->extras) > 1) {
+            //         $options = '';
+            //         foreach($rowData['extras'] as $optionValue){
+            //             $options .= '<option value="' . $$optionValue . '">' . $optionValue . '</option>';
+            //         }
+            //         return '<select name = "'.$rowData->name.'">'.$options.'</select>';
+            //     } else {
+            //         // return '<input name="'.$rowData->name.'" type = "text" value="' . $value . '"  />';
+            //     }
+            // });
         }
 
         $output = $crud->render();
@@ -267,15 +291,12 @@ class CoreLibrary
     private function callBacks(&$crud, $featureLibrary)
     {
         $crud->callbackColumn('created_by', function ($id, $row) {
-
             $userLibrary = new UserLibrary();
             $user = $userLibrary->getUserById($row->created_by);
             $userFullName = get_phrase('not_set');
-
             if (!empty($user)) {
                 $userFullName = $user['first_name'] . ' ' . $user['last_name'];
             }
-
             return $userFullName;
         });
 

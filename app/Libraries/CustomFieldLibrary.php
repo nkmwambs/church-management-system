@@ -18,6 +18,20 @@ class CustomFieldLibrary extends CoreLibrary {
         }
         return $fields;
     }
+
+    function columns(){
+        $fields = ['denomination_id','feature_id','name','type','options'];
+        if(!$this->session->system_admin){
+            unset($fields[array_search('denomination_id',$fields)]);
+        }
+        return $fields;
+    }
+
+    // public function actionBeforeInsert($stateParameters){
+    //     $stateParameters->data['name'] = underscore(strtolower($stateParameters->data['name']));
+    //     return $stateParameters;
+    // }
+
     function buildCrud($crud){
         $crud->setRelation('denomination_id','denominations','name');   
         $crud->setRelation('feature_id','features','name');
