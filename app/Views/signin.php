@@ -47,7 +47,7 @@
 		<div class="login-content">
 			
 			<a href="index.html" class="logo">
-				<img src="assets/images/logo.png" width="120" alt="" />
+				<img src="assets/images/logo.png" width="80" alt="" />
 			</a>
 			
 			<p class="description" style="font-size:20px;color:aliceblue;"><?=service('settings')->get('App.siteName');?></p>
