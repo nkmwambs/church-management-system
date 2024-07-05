@@ -112,14 +112,14 @@
 					<em>- or -</em>
 				</div>
 				
-				<div class="form-group">
+				<!-- <div class="form-group">
 				
 					<button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left facebook-button">
 						Login with Facebook
 						<i class="entypo-facebook"></i>
 					</button>
 					
-				</div>
+				</div> -->
 				
 				<!-- You can also use other social network buttons-->
 				<div class="form-group">
