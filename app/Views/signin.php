@@ -122,32 +122,32 @@
 				</div> -->
 				
 				<!-- You can also use other social network buttons-->
-				<div class="form-group">
+				<!-- <div class="form-group">
 				
 					<button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left twitter-button">
 						Login with Twitter
 						<i class="entypo-twitter"></i>
 					</button>
 					
-				</div>
+				</div> -->
 				
-				<div class="form-group">
+				<!-- <div class="form-group">
 				
 					<button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left google-button">
 						Login with Google+
 						<i class="entypo-gplus"></i>
 					</button>
 					
-				</div> 
+				</div>  -->
 				
 			</form>
 			
 			
 			<div class="login-bottom-links">
 				
-				<a href="extra-forgot-password.html" class="link">Forgot your password?</a>
+				<!-- <a href="extra-forgot-password.html" class="link">Forgot your password?</a>
 				
-				<br />
+				<br /> -->
 				
 				<a href="#">Techsys - Kenya</a>  - <a href="#">Privacy Policy</a>
 				
