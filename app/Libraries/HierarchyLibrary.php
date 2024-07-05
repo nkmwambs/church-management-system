@@ -134,7 +134,7 @@ class HierarchyLibrary extends CoreLibrary {
         return [['levelNumber' => $nextAvailableLevel, 'levelName' => get_phrase('level'). ' ' . $nextAvailableLevel]];
     }
 
-    public function getAllowableHierachies(){
+    public function getAllowableHierarchies(){
         $builder = $this->read_db->table('hierarchies');
         $builder->select('id,name,level');
         if(!$this->session->system_admin){
