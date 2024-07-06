@@ -45,6 +45,7 @@ class HierarchyLibrary extends CoreLibrary {
     public function where(){
         $condtionArray = '';
         if(!$this->session->get('system_admin')){
+            // log_message('error', json_encode($this->session->get('denomination_id')));
             $condtionArray = "denomination_id = ".$this->session->get('denomination_id');
         }   
         return $condtionArray;

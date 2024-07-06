@@ -67,12 +67,12 @@ class Login extends BaseController {
     private function create_user_session($userData){
         $denominationModel = new \App\Models\DenominationModel();
         $denomination = $denominationModel->find($userData['denomination_id']);
-        // log_message('error', json_encode($denomination));
+        log_message('error', json_encode($userData));
         $user_session = [
             'user_is_authenticated' => 1,
             'full_name' => $userData['first_name'].' '.$userData['last_name'],
-            'denomination_id' => $userData['is_system_admin'] == 'no' ? $userData['denomination_id'] : 0,
-            'denomination_code' => $userData['is_system_admin'] == 'no' ? $denomination['code']: 'GLOBAL',
+            'denomination_id' => $userData['is_system_admin'] != 'yes' ? $userData['denomination_id'] : 0,
+            'denomination_code' => $userData['is_system_admin'] != 'yes' ? $denomination['code']: 'GLOBAL',
             'user_id' => $userData['id'],
             'role_ids' => $userData['is_system_admin'] == 'yes' ? ['*'] : explode(',',$userData['roles']), // Override given roles if a system admin
             'system_admin' => $userData['is_system_admin'] ==  'yes' ? true : false,
