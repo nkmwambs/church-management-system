@@ -76,7 +76,7 @@ class PermissionLibrary extends CoreLibrary
         $builder = $this->read_db->table('permissions');
         $builder->select('permissions.id as id, features.id as feature_id, permissions.label');
         $builder->join('features','features.id=permissions.feature_id');
-        $builder->where(['features.name' => $featureName, 'permissions.label' => $labelName, 'permissions.global_permission' => 'no']);
+        $builder->where(['features.name' => $featureName, 'permissions.label' => $labelName]);
         $permissionObj = $builder->get();
 
         $permission = [];

@@ -41,6 +41,7 @@ class RoleLibrary extends CoreLibrary {
         }
 
         $readDashboardPermission = $this->callClassMethod('permission', 'getPermissionByLabel','dashboard','read');
+        // log_message('error', json_encode($readDashboardPermission));
         $stateParameters->data['permissions'][] = $readDashboardPermission['id'];
         
         return $stateParameters;
