@@ -99,6 +99,8 @@ class CoreLibrary
         $output = $crud->render();
         $output->page_data = $page_data;
 
+        log_message('error',(string)$this->read_db->getLastQuery());
+
         return $this->output($output);
     }
 
