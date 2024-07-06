@@ -14,6 +14,10 @@ class MemberLibrary extends CoreLibrary {
 
     public function addFields(){
         $fields = ['first_name', 'last_name','phone', 'email', 'date_of_birth','designation_id', 'assembly_id'];
+        $assemblyLibrary = new AssemblyLibrary();
+        if(empty($assemblyLibrary->getAllowableAssemblies())){
+           unset($fields[array_search('assembly_id', $fields)]); 
+        }
         return $fields;
     }
 
@@ -98,19 +102,23 @@ class MemberLibrary extends CoreLibrary {
     // }
 
     public function buildCrud($crud){
-        $crud->setRelation('designation_id','designations','name', !$this->session->system_admin ? 'denomination_id ='.$this->session->denomination_id: null);
         // $crud->setRelation('assembly_id','assemblies','name','denomination_id ='.$this->session->denomination_id);
+        
+        $crud->setRelation('designation_id','designations','name', !$this->session->system_admin ? 'denomination_id ='.$this->session->denomination_id: null);
         $assemblyLibrary = new AssemblyLibrary();
-        $crud->fieldType('assembly_id', 'dropdown', transposeRecordArray($assemblyLibrary->getAllowableAssemblies()));
+        // log_message('error', json_encode($assemblyLibrary->getAllowableAssemblies()));
+        if(!empty($assemblyLibrary->getAllowableAssemblies())){
+            $crud->fieldType('assembly_id', 'dropdown', transposeRecordArray($assemblyLibrary->getAllowableAssemblies()));
+        }
 
         // $this->customFields($crud);
 
-        $crud->join(
-            [
-                ['members','assembly_id', 'assemblies', 'id', []],
-                ['assemblies','entity_id', 'entities', 'id', []],
-                ['entities','hierarchy_id', 'hierarchies', 'id', !$this->session->system_admin ? ['hierarchies.denomination_id' => $this->session->denomination_id] : []]
-            ]
-        );
+        // $crud->join(
+        //     [
+        //         ['members','assembly_id', 'assemblies', 'id', []],
+        //         ['assemblies','entity_id', 'entities', 'id', []],
+        //         ['entities','hierarchy_id', 'hierarchies', 'id', !$this->session->system_admin ? ['hierarchies.denomination_id' => $this->session->denomination_id] : []]
+        //     ]
+        // );
     }
 }
