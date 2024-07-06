@@ -167,7 +167,19 @@ class CoreLibrary
     protected function callClassMethod($featureName, $methodName, ...$params)
     {
         $result = [];
+        $hyphenedFeatures = [
+            'customfield' => 'CustomField',
+            'collectiontype' => 'CollectionType',
+            'subscriptiontype' => 'SubscriptionType',
+            'reporttype' => 'ReportType',
+            'gatheringtype' => 'GatheringType',
+            'customvalue' => 'CustomValue',
+        ];
+
         $featureLibrary = new ('\\App\Libraries\\' . pascalize($featureName) . 'Library')();
+        if(in_array($featureName, $hyphenedFeatures)){
+            $featureLibrary = new ('\\App\Libraries\\' . $hyphenedFeatures[$featureName] . 'Library')();
+        }
         if (method_exists($featureLibrary, $methodName)) {
             $result = $featureLibrary->{$methodName}(...$params);
         }
@@ -199,8 +211,8 @@ class CoreLibrary
         $hyphenedFeatures = [
             'customfield' => 'CustomField',
             'collectiontype' => 'CollectionType',
-           'subscriptiontype' => 'SubscriptionType',
-           'reporttype' => 'ReportType',
+            'subscriptiontype' => 'SubscriptionType',
+            'reporttype' => 'ReportType',
             'gatheringtype' => 'GatheringType',
             'customvalue' => 'CustomValue',
         ];
