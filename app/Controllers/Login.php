@@ -37,12 +37,14 @@ class Login extends BaseController {
         $login_status = $this->confirm_login(strtolower(trim($email)), $password);
 
         // Add the login status to the response array
-        $response['login_status'] = $_POST;
+        $response['submitted_data'] = $_POST;
+        $response['login_status'] = $login_status;
 
         // If the login status is 'success', add an empty redirect URL to the response array
         if ($login_status == 'success') {
-            $response['login_status'] = $login_status;
-            $response['redirect_url'] = base_url().'dashboard';
+            // $response['login_status'] = 'success'; // $login_status;
+            // $response['redirect_url'] = base_url().'dashboard';
+            $response['redirect_url'] = '';
         }
         
         // Send the JSON response to the client

@@ -80,6 +80,7 @@
 						 success: function(response)
 						 {
 							 // Login status [success|invalid]
+							//  console.log(response.login_status)
 							 var login_status = response.login_status;
 															 
 							 // Form is fully completed, we update the percentage
