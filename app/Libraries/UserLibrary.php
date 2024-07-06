@@ -93,7 +93,7 @@ class UserLibrary extends CoreLibrary {
 
 
     public function editFields(){
-        $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email','password'];
+        $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email'];
         if($this->session->get('system_admin')){
             array_push($fields, 'is_system_admin');
         }

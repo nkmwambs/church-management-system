@@ -120,7 +120,7 @@ class HierarchyLibrary extends CoreLibrary {
         $builder->where('denomination_id', $denomination_id);
         $hierarchyObj = $builder->get();
 
-        $lastUsedLevel = 1;
+        $lastUsedLevel = 0;
         
         if($hierarchyObj->getNumRows() > 0){
             $lastUsedLevel = array_column($hierarchyObj->getResultArray(),'level')[0];
