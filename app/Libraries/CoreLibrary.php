@@ -410,7 +410,11 @@ class CoreLibrary
 
     protected function setRelationIdsCondition($table, $ids)
     {
-        return $table . '.id IN (' . implode(',', $ids) . ')';
+        $condition  = '';
+        if(!empty($ids)) {
+            $condition = $table . '.id IN (' . implode(',', $ids) . ')';
+        }
+        return $condition;
     }
 
     protected function output($output = null)

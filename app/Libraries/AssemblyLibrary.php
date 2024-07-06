@@ -14,7 +14,13 @@ class AssemblyLibrary extends CoreLibrary {
     }
 
     public function addFields(){
-        return ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
+        $fields = ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
+        $firstLevelEntityIds = $this->firstLevelEntityIds();
+        $firstLevelEntityConditionString = $this->setRelationIdsCondition('entities', $firstLevelEntityIds);
+        if(empty($firstLevelEntityConditionString)){
+            unset($fields[array_search('entity_id', $fields)]);
+        }
+        return $fields;
     }
     public function editFields(){
         return ['name', 'entity_id', 'location', 'planted_at','assembly_leader'];
@@ -39,10 +45,13 @@ class AssemblyLibrary extends CoreLibrary {
         $crud->displayAs(['entity_id' => get_phrase('belongs_to')]); 
 
         // Only drop first level enties when creating an assembly
-        // $firstLevelEntityIds = $this->firstLevelEntityIds();
-        // $firstLevelEntityConditionString = $this->setRelationIdsCondition('entities', $firstLevelEntityIds);
-        // $crud->setRelation('entity_id', 'entities', 'name',$firstLevelEntityConditionString);
-        // $crud->setRelation('assembly_leader', 'members', '{first_name} {last_name} - {phone}');
+        $firstLevelEntityIds = $this->firstLevelEntityIds();
+
+        $firstLevelEntityConditionString = $this->setRelationIdsCondition('entities', $firstLevelEntityIds);
+        if(!empty($firstLevelEntityConditionString)){
+            $crud->setRelation('entity_id', 'entities', 'name',$firstLevelEntityConditionString);
+        }
+        $crud->setRelation('assembly_leader', 'members', '{first_name} {last_name} - {phone}');
 
         // $feature = $this->feature;
         // $crud->setActionButton('More', 'entypo-dot-3', function ($id) use($feature) {
