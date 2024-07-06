@@ -36,8 +36,7 @@ class HierarchyLibrary extends CoreLibrary {
         $fields = ['denomination_id','level', 'name'];
 
         if(!$this->session->get('system_admin')){
-            unset($fields[array_search('denomination_id',$fields)]);
-            // unset($fields[array_search('level',$fields)]);
+            // unset($fields[array_search('denomination_id',$fields)]);
         }
 
         return $fields;
