@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-class CustomfieldLibrary extends CoreLibrary {
+class CustomFieldLibrary extends CoreLibrary {
     public function __construct() {
         parent::__construct();
     }

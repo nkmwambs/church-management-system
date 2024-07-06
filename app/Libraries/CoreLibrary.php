@@ -196,7 +196,21 @@ class CoreLibrary
 
     protected function getAllowableResults($featureName)
     {
-        $pascalizeFeatureName = $featureName == 'customfield' ? 'CustomField' : pascalize($featureName);
+        $hyphenedFeatures = [
+            'customfield' => 'CustomField',
+            'collectiontype' => 'CollectionType',
+           'subscriptiontype' => 'SubscriptionType',
+           'reporttype' => 'ReportType',
+            'gatheringtype' => 'GatheringType',
+            'customvalue' => 'CustomValue',
+        ];
+
+        $pascalizeFeatureName = pascalize($featureName);
+
+        if(array_key_exists($featureName, $hyphenedFeatures)){
+            $pascalizeFeatureName  == $hyphenedFeatures[$featureName];
+        }
+
         $featureLibary = new ('\\App\\Libraries\\' . $pascalizeFeatureName . 'Library')();
         return $featureLibary->{'getAllowable' . plural($pascalizeFeatureName)}();
     }
