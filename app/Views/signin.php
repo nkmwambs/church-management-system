@@ -70,8 +70,8 @@
 		<div class="login-content">
 			
 			<div class="form-login-error">
-				<h3>Invalid login</h3>
-				<p>Enter correct a login and password.</p>
+				<h3><?=get_phrase('invalid_login');?></h3>
+				<p><?=get_phrase('invalid_login_message','Enter a correct email or password.');?></p>
 			</div>
 			
 			<form method="post" role="form" id="form_login">
