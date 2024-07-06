@@ -208,7 +208,7 @@ class CoreLibrary
         $pascalizeFeatureName = pascalize($featureName);
 
         if(array_key_exists($featureName, $hyphenedFeatures)){
-            $pascalizeFeatureName  == $hyphenedFeatures[$featureName];
+            $pascalizeFeatureName  = $hyphenedFeatures[$featureName];
         }
 
         $featureLibary = new ('\\App\\Libraries\\' . $pascalizeFeatureName . 'Library')();
