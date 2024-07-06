@@ -196,7 +196,7 @@ class CoreLibrary
 
     protected function getAllowableResults($featureName)
     {
-        $pascalizeFeatureName = $featureName == 'custom_field' ? 'CustomField' : pascalize($featureName);
+        $pascalizeFeatureName = $featureName == 'customfield' ? 'CustomField' : pascalize($featureName);
         $featureLibary = new ('\\App\\Libraries\\' . $pascalizeFeatureName . 'Library')();
         return $featureLibary->{'getAllowable' . plural($pascalizeFeatureName)}();
     }
