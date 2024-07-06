@@ -167,6 +167,7 @@ class CoreLibrary
     protected function callClassMethod($featureName, $methodName, ...$params)
     {
         $result = [];
+
         $hyphenedFeatures = [
             'customfield' => 'CustomField',
             'collectiontype' => 'CollectionType',

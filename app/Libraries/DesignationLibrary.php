@@ -50,7 +50,7 @@ class DesignationLibrary extends CoreLibrary {
         $crud->displayAs('department_id',get_phrase('department'));
 
         if(!$this->session->system_admin){
-            $crud->where('denomination_id = '.$this->session->denomination_id);
+            $crud->where('designations.denomination_id = '.$this->session->denomination_id);
         }
     }
 
