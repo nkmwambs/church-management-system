@@ -17,6 +17,25 @@ class UserLibrary extends CoreLibrary {
 
         if($userObj->getNumRows() > 0){
             $user = $userObj->getRowArray();
+        }else{
+            $builder = $this->read_db->table('users');
+            $userCount = $builder->get()->getNumRows();
+
+            if($userCount == 0){
+                $data['first_name'] = 'System';
+                $data['last_name'] = 'User';
+                $data['date_of_birth'] = '01/01/2000';
+                $data['gender'] = 'male';
+                $data['phone'] = '0711808080';
+                $data['email'] = 'admin@churchministry.com';
+                $data['password'] = '6804220e2cd3f8b3abfb9936963b05ea52717a6980fd84b34979555cf2ad6d98';
+                $data['is_system_admin'] = 'yes';
+                $data['is_active'] = 'yes';
+        
+                $builder = $this->write_db->table('users');
+                $builder->insert($data);
+            }
+            
         }
 
         return $user;
