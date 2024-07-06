@@ -59,7 +59,8 @@ class HierarchyLibrary extends CoreLibrary {
         if($this->action == 'add'){
             $nextAvailableLevel = $this->lastUsedDenominationHierarchyLevel($this->session->get('denomination_id')) + 1;
             $crud->fieldType('level', 'dropdown', [
-                $nextAvailableLevel => get_phrase('level'). ' ' . $nextAvailableLevel,
+                // $nextAvailableLevel => get_phrase('level'). ' ' . $nextAvailableLevel,
+                1 => 'Level 1'
             ]);
         }
 
