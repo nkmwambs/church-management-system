@@ -36,7 +36,7 @@ class AssemblyLibrary extends CoreLibrary {
     }
 
     public function buildCrud($crud) {
-        $crud->displayAs(['entity_id' => get_phrase('entity')]); 
+        $crud->displayAs(['entity_id' => get_phrase('belongs_to')]); 
 
         // Only drop first level enties when creating an assembly
         $firstLevelEntityIds = $this->firstLevelEntityIds();
