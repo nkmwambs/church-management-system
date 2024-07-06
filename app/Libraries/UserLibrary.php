@@ -70,6 +70,9 @@ class UserLibrary extends CoreLibrary {
             $stateParameters->data['denomination_id'] = $this->session->get('denomination_id');
         }
 
+        // $user = new UserLibrary();
+        $stateParameters->data['password'] = $this->passwordSalt($stateParameters->data['password']);
+
         if(isset($stateParameters->data['pass_confirm'])){
             unset($stateParameters->data['pass_confirm']);
         }
@@ -90,7 +93,7 @@ class UserLibrary extends CoreLibrary {
 
 
     public function editFields(){
-        $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email'];
+        $fields = ['first_name', 'last_name','roles', 'permitted_entities','permitted_assemblies','date_of_birth', 'gender', 'phone','email','password', 'pass_confirm'];
         if($this->session->get('system_admin')){
             array_push($fields, 'is_system_admin');
         }
@@ -159,6 +162,12 @@ class UserLibrary extends CoreLibrary {
 
         $crud->fieldType('password', 'password');
         $crud->fieldType('pass_confirm', 'password');
+    }
+
+    public function passwordSalt($password){
+        $hashed    = hash('sha256', $password . 'uywiy652579hz');
+        // log_message('error', $hashed);
+        return $hashed;
     }
 
 }

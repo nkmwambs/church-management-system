@@ -54,7 +54,7 @@ class Login extends BaseController {
     public function confirm_login($userEmail, $password){
 
         $user = new UserLibrary();
-        $hashedPassword = $this->passwordSalt($password);
+        $hashedPassword = $user->passwordSalt($password);
         $userData = $user->getUserByEmailAndPassword($userEmail, $hashedPassword);
 
         if(!empty($userData)){
@@ -62,12 +62,6 @@ class Login extends BaseController {
         }else{
             return 'invalid';
         }
-    }
-
-    private function passwordSalt($password){
-        $hashed    = hash('sha256', $password . 'uywiy652579hz');
-        // log_message('error', $hashed);
-        return $hashed;
     }
 
     private function create_user_session($userData){
