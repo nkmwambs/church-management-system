@@ -91,7 +91,7 @@ class CoreLibrary
 
         if ($this->feature != 'customfield') {
             $this->customFields($crud);
-            $this->customFieldsReadValues($crud);
+            // $this->customFieldsReadValues($crud);
             $this->getACtionedUsersNames($crud);
         }
         
