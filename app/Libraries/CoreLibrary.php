@@ -176,10 +176,14 @@ class CoreLibrary
             'customvalue' => 'CustomValue',
         ];
 
-        $featureLibrary = new ('\\App\Libraries\\' . pascalize($featureName) . 'Library')();
+        $libName = pascalize($featureName);
         if(in_array($featureName, $hyphenedFeatures)){
-            $featureLibrary = new ('\\App\Libraries\\' . $hyphenedFeatures[$featureName] . 'Library')();
+            // $featureLibrary = new ('\\App\Libraries\\' . $hyphenedFeatures[$featureName] . 'Library')();
+            $libName = $hyphenedFeatures[$featureName];
         }
+
+        $featureLibrary = new ('\\App\Libraries\\' . $libName . 'Library')();
+
         if (method_exists($featureLibrary, $methodName)) {
             $result = $featureLibrary->{$methodName}(...$params);
         }
