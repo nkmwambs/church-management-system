@@ -9,7 +9,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
-use App\Libraries\GroceryCrud;
 use App\Libraries\CoreLibrary;
 
 /**
@@ -102,6 +101,12 @@ abstract class BaseController extends Controller
             $core = new CoreLibrary();
             return $core->crudViewRender();
         }
+    }
+
+    public function systemReset(){
+        $coreLibrary = new CoreLibrary();
+        $coreLibrary->truncateTables();
+        return redirect()->to('/dashboard');
     }
 
 }

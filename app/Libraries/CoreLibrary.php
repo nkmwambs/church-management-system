@@ -481,4 +481,22 @@ class CoreLibrary
 
         return ['columns' => $selectedColumns, 'data' => array_values($result->getResultArray())];
     }
+
+    public function truncateTables()
+    {
+
+        $this->write_db->query("SET foreign_key_checks = 0");
+
+        // List of tables to truncate
+        $tables = ["assemblies","attendances","collection_types","collections","customfields","customvalues",
+                    "dashboards","denominations","departments","designations","entities","events","gatherings","gatheringtypes",
+                    "hierarchies","members","participants","report_fields","report_values","reports","reports_types","roles",
+                    "settings","subscription_types","subscriptions","users"];
+
+        // Loop through each table and truncate
+        foreach ($tables as $table) {
+            $this->write_db->query("TRUNCATE TABLE $table");
+            // $this->write_db->table($table)->truncate();
+        }
+    }
 }
