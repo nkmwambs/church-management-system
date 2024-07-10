@@ -104,9 +104,12 @@ abstract class BaseController extends Controller
     }
 
     public function systemReset(){
+        if(!$this->session->system_admin){
+            return redirect()->to('/'.$this->feature);
+        }
         $coreLibrary = new CoreLibrary();
         $coreLibrary->truncateTables();
-        return redirect()->to('/dashboard');
+        return redirect()->to('/'.$this->feature);
     }
 
 }
