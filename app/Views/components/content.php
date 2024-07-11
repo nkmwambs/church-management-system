@@ -3,19 +3,22 @@ foreach ($css_files as $file): ?>
 	<link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 <?php endforeach; ?>
 
-<nav class="navbar sticky-top navbar-light bg-light">
+<ul class="nav nav-pills">
 	<?php
 	$children = $page_data['children'];
 	$feature = $page_data['page_name'];
 	if (isset($children) && !empty($children)) {
 		foreach ($children as $child) {
 	?>
-		<a class="navbar-brand" href="<?= site_url(strtolower(pascalize($child['name']))); ?>"><?= ucfirst(humanize(plural($child['name']))); ?></a>
+		<li class="nav-item">
+			<a class="nav-link <?=$feature == strtolower(pascalize($child['name'])) ? 'active': '';?>" aria-current="role" href="<?= site_url(strtolower(pascalize($child['name']))); ?>"><?= ucfirst(humanize(plural($child['name']))); ?></a>
+		</li>
+		
 	<?php
 		}
 	}
 	?>
-</nav>
+</ul>
 
 
 <div style='height:20px;'></div>

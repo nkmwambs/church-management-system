@@ -1,4 +1,7 @@
-<?php foreach(menuItems() as $menuItem){?>
+<?php 
+foreach(menuItems() as $menuItem){
+    unset($menuItem['children']); // This a a work around to remove children key since it is not needed anymore    
+?>
 <li class="menu-item <?=isset($menuItem['children']) ? 'has-sub' : ''?>">
     <a href="<?=!isset($menuItem['children']) ? strtolower(pascalize(site_url($menuItem['def']['name']))): "#";?>" >
         <i class="<?=$menuItem['def']['icon'];?>"></i>

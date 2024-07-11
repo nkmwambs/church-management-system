@@ -65,7 +65,7 @@ class CoreLibrary
         $menuLibrary = new MenuLibrary();
 
         $page_data['page_name'] = $this->feature;
-        $page_data['children'] = $menuLibrary->getMenuChildren($this->feature); // ['hierarchy','entity','assembly'];
+        $page_data['children'] = $menuLibrary->getMenuChildren($this->feature); 
         $page_data['custom'] = false;
         $crud = new CustomCrud();
 
