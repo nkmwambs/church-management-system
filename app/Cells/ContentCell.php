@@ -6,11 +6,15 @@ class ContentCell
 {
     public function show($params): string
     {
+        // log_message('error', json_encode($params));
+
         extract($params['page_data']);
         $feature = isset($page_name) ? $page_name : '';
         $action = isset($action) ? $action : '';
         $component_path = "components".DIRECTORY_SEPARATOR;
         $feature_view_path = $feature.DIRECTORY_SEPARATOR;
+
+        // log_message('error', json_encode($children));
 
         if(file_exists(VIEW_PATH.$feature)){
             $featurePath = VIEW_PATH.$feature.DIRECTORY_SEPARATOR;

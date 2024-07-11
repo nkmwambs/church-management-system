@@ -95,7 +95,7 @@ abstract class BaseController extends Controller
             $page_data['id'] = $this->id;
             $page_data['result'] = $featureLibary->getCustomResults(plural($this->feature), $this->action, $this->id);
             $page_data['custom'] = true;
-            // log_message('error', json_encode($page_data));
+            // $page_data['children'] = ['hierarchy','entity','assembly'];
             return view('index', ['page_data' => $page_data]);
         }else{
             $core = new CoreLibrary();

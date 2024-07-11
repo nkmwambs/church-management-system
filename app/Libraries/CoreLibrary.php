@@ -61,7 +61,11 @@ class CoreLibrary
 
     function crudViewRender()
     {
+
+        $menuLibrary = new MenuLibrary();
+
         $page_data['page_name'] = $this->feature;
+        $page_data['children'] = $menuLibrary->getMenuChildren($this->feature); // ['hierarchy','entity','assembly'];
         $page_data['custom'] = false;
         $crud = new CustomCrud();
 
@@ -102,6 +106,12 @@ class CoreLibrary
         // log_message('error',(string)$this->read_db->getLastQuery());
 
         return $this->output($output);
+    }
+
+    protected function output($output = null)
+    {
+        // log_message('error', json_encode($output));
+        return view('index', (array) $output);
     }
 
     private function getACtionedUsersNames($crud){
@@ -417,11 +427,6 @@ class CoreLibrary
         return $condition;
     }
 
-    protected function output($output = null)
-    {
-        return view('index', (array) $output);
-    }
-
     /** Custom pages */
     public function getCustomResults($table, $action, $id = 0)
     {
@@ -498,5 +503,9 @@ class CoreLibrary
             $this->write_db->query("TRUNCATE TABLE $table");
             // $this->write_db->table($table)->truncate();
         }
+    }
+
+    public function featureTableName($featureName){
+        return plural($featureName);
     }
 }
